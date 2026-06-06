@@ -1,9 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-numbers-page',
-  imports: [],
-  template: `<p>numbers-page works!</p>`,
+  imports: [DecimalPipe, PercentPipe, CurrencyPipe],
+  templateUrl: './numbers-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class NumbersPage {}
+export default class NumbersPage {
+
+  totalSells = signal(2_433_232.5567);
+  percent = signal(0.4856);
+}

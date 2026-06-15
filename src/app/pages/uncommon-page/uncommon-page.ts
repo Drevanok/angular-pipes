@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Card } from '../../components/card/card';
-import { I18nPluralPipe, I18nSelectPipe, SlicePipe } from '@angular/common';
+import { AsyncPipe, I18nPluralPipe, I18nSelectPipe, JsonPipe, KeyValuePipe, SlicePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 
 const client1 = {
   name: 'Saul',
@@ -18,7 +18,16 @@ const client2 = {
 
 @Component({
   selector: 'app-uncommon-page',
-  imports: [Card, I18nSelectPipe, I18nPluralPipe, SlicePipe],
+  imports: [
+    Card,
+    I18nSelectPipe,
+    I18nPluralPipe,
+    SlicePipe,
+    JsonPipe,
+    UpperCasePipe,
+    KeyValuePipe,
+    TitleCasePipe,
+    AsyncPipe],
   templateUrl: './uncommon-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,7 +42,7 @@ export default class UncommonPage {
   }
 
   changeClient() {
-    if(this.client() === client1){
+    if (this.client() === client1) {
       this.client.set(client2);
       return;
     }
@@ -59,7 +68,23 @@ export default class UncommonPage {
     'Andrea',
   ]);
 
-  deleteClient(){
+  deleteClient() {
     this.clients.update(prev => prev.slice(1));
   }
+
+  //keyvaluePipe
+  profile = {
+    name: 'Saul',
+    age: 23,
+    address: 'Ensenada, Maneadero',
+  }
+
+  //Async Pipe
+  promiseValue: Promise<string> = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject('Tenemos un error en la data')
+      // resolve('Tenemos data en la promesa')
+      console.log('Promesa finalizada')
+    }, 3500);
+  })
 }

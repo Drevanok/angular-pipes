@@ -13,5 +13,5 @@ export class Navbar {
   routes = routes.map(route => ({
     title: route.title ?? '',
     path: route.path ?? '',
-  }))
+  })) 
 }

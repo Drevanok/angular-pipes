@@ -16,12 +16,15 @@
 <div class="divider my-2"></div>
 
 <section class="my-2">
-    <h1>Pipes personalizados en accion</h1>
-    <div class="flex gap-2 justify-end w-full">
-        <button class="btn btn-primary">Por nombre</button>
-        <button class="btn btn-accent">Por volar</button>
-        <button class="btn btn-secondary">Por color</button>
-        <button class="btn btn-info">Por creador</button>
+    <h1>Filtrando por: {{searchQuery()}} ordenando por {{sortBy()}}</h1>
+    <div class="flex gap-2 justify-end w-full mt-2">
+
+        <input type="text" class="input input-bordered w-full max-w-xs" placeholder="Buscar heroe" (input)="searchQuery.set(txtSearch.value)" #txtSearch>
+        <div class="flex flex-1"></div>
+        <button (click)="sortBy.set('name')" class="btn btn-primary">Por nombre</button>
+        <button (click)="sortBy.set('canFly')" class="btn btn-accent">Por volar</button>
+        <button (click)="sortBy.set('color')" class="btn btn-secondary">Por color</button>
+        <button (click)="sortBy.set('creator')" class="btn btn-info">Por creador</button>
     </div>
 </section>
 
@@ -38,7 +41,7 @@
             </tr>
         </thead>
         <tbody>
-            @for(hero of heroes(); track hero.id; let i = $index){
+            @for(hero of heroes() | heroFilter:searchQuery() | heroSortBy: sortBy(); track hero.id; let i = $index){
             <tr>
                 <td>{{i +1}}</td>
                 <td>{{hero.name}}</td>
@@ -54,7 +57,8 @@
                     </span>
                 </td>
                 <td>
-                    <span [class.text-primary]="hero.creator === 0" [class.text-accent]="hero.creator === 1" [class.text-secondary]="hero.creator === 2">
+                    <span [class.text-primary]="hero.creator === 0" [class.text-accent]="hero.creator === 1"
+                        [class.text-secondary]="hero.creator === 2">
                         {{hero.creator | heroCreator}}
                     </span>
                 </td>
